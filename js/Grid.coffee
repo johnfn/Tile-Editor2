@@ -57,10 +57,20 @@ class Grid
 
 		@canvas.strokeRect @x,@y,@width,@height
 		if @mouseover
-			@canvas.strokeRect globals.tileWidth * Math.floor(mouse.x / globals.tileWidth),
-							   globals.tileWidth * Math.floor(mouse.y / globals.tileWidth),
-							   globals.tileWidth,
-							   globals.tileWidth
+			if @dragging
+				pos = this.getGridXY()
+				pos.x *= globals.tileWidth
+				pos.y *= globals.tileWidth
+				topleft = new Point(Math.min(pos.x, globals.tileWidth * @start.x), Math.min(pos.y, globals.tileWidth * @start.y))
+				@canvas.strokeRect topleft.x,
+								   topleft.y,
+								   Math.abs(pos.x - globals.tileWidth * @start.x),
+								   Math.abs(pos.y - globals.tileWidth * @start.y)
+			else
+				@canvas.strokeRect globals.tileWidth * Math.floor(mouse.x / globals.tileWidth),
+								   globals.tileWidth * Math.floor(mouse.y / globals.tileWidth),
+								   globals.tileWidth,
+								   globals.tileWidth
 	
 
 	unclick: (x, y) ->

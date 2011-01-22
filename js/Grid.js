@@ -48,7 +48,7 @@
       }
     };
     Grid.prototype.draw = function(x, y) {
-      var i, j, _ref, _ref2;
+      var i, j, pos, topleft, _ref, _ref2;
       for (i = 0, _ref = this.itemwidth; (0 <= _ref ? i < _ref : i > _ref); (0 <= _ref ? i += 1 : i -= 1)) {
         for (j = 0, _ref2 = this.itemwidth; (0 <= _ref2 ? j < _ref2 : j > _ref2); (0 <= _ref2 ? j += 1 : j -= 1)) {
           if (this.overworld) {
@@ -60,7 +60,15 @@
       }
       this.canvas.strokeRect(this.x, this.y, this.width, this.height);
       if (this.mouseover) {
-        return this.canvas.strokeRect(globals.tileWidth * Math.floor(mouse.x / globals.tileWidth), globals.tileWidth * Math.floor(mouse.y / globals.tileWidth), globals.tileWidth, globals.tileWidth);
+        if (this.dragging) {
+          pos = this.getGridXY();
+          pos.x *= globals.tileWidth;
+          pos.y *= globals.tileWidth;
+          topleft = new Point(Math.min(pos.x, globals.tileWidth * this.start.x), Math.min(pos.y, globals.tileWidth * this.start.y));
+          return this.canvas.strokeRect(topleft.x, topleft.y, Math.abs(pos.x - globals.tileWidth * this.start.x), Math.abs(pos.y - globals.tileWidth * this.start.y));
+        } else {
+          return this.canvas.strokeRect(globals.tileWidth * Math.floor(mouse.x / globals.tileWidth), globals.tileWidth * Math.floor(mouse.y / globals.tileWidth), globals.tileWidth, globals.tileWidth);
+        }
       }
     };
     Grid.prototype.unclick = function(x, y) {
