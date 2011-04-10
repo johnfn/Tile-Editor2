@@ -2,14 +2,12 @@
   var Grid;
   Grid = (function() {
     function Grid(x, y, canvas, tilebox, toolbox) {
-      var i, j, obj, _ref, _ref2;
       this.canvas = canvas;
       this.x = x;
       this.y = y;
       this.itemwidth = 15;
       this.itemheight = 15;
-      this.width = this.itemwidth * globals.tileWidth;
-      this.height = this.itemheight * globals.tileWidth;
+      this.setwh();
       this.overworld = false;
       this.tilebox = tilebox;
       this.toolbox = toolbox;
@@ -17,20 +15,40 @@
       this.dragging = false;
       globals.lists.add(this, types.clickable);
       globals.lists.add(this, types.mouseable);
+      this.inittiles();
+    }
+    Grid.prototype.inittiles = function() {
+      var i, j, obj, _ref, _results;
       this.tiles = [];
+      _results = [];
       for (i = 0, _ref = this.itemwidth; (0 <= _ref ? i < _ref : i > _ref); (0 <= _ref ? i += 1 : i -= 1)) {
         this.tiles.push([]);
-        for (j = 0, _ref2 = this.itemwidth; (0 <= _ref2 ? j < _ref2 : j > _ref2); (0 <= _ref2 ? j += 1 : j -= 1)) {
-          obj = {};
-          obj.x = this.x + i * (globals.tileWidth + this.borderBetweenItems);
-          obj.y = this.y + 0 * (globals.tileWidth + this.borderBetweenItems);
-          obj.width = globals.tileWidth;
-          obj.height = globals.tileWidth;
-          obj.type = 0;
-          this.tiles[i].push(obj);
-        }
+        _results.push((function() {
+          var _ref, _results;
+          _results = [];
+          for (j = 0, _ref = this.itemwidth; (0 <= _ref ? j < _ref : j > _ref); (0 <= _ref ? j += 1 : j -= 1)) {
+            obj = {};
+            obj.x = this.x + i * (globals.tileWidth + this.borderBetweenItems);
+            obj.y = this.y + 0 * (globals.tileWidth + this.borderBetweenItems);
+            obj.width = globals.tileWidth;
+            obj.height = globals.tileWidth;
+            obj.type = 0;
+            _results.push(this.tiles[i].push(obj));
+          }
+          return _results;
+        }).call(this));
       }
-    }
+      return _results;
+    };
+    Grid.prototype.resize = function(size) {
+      this.itemwidth = size;
+      this.itemheight = size;
+      return this.inittiles();
+    };
+    Grid.prototype.setwh = function() {
+      this.width = this.itemwidth * globals.tileWidth;
+      return this.height = this.itemheight * globals.tileWidth;
+    };
     Grid.prototype.getGridXY = function() {
       return new Point(Math.floor(mouse.x / globals.tileWidth), Math.floor(mouse.y / globals.tileWidth));
     };
@@ -64,7 +82,7 @@
           pos = this.getGridXY();
           pos.x *= globals.tileWidth;
           pos.y *= globals.tileWidth;
-          topleft = new Point(Math.min(pos.x, globals.tileWidth * this.start.x), Math.min(pos.y, globals.tileWidth * this.start.y));
+          topleft = new Point(Math.min(pos.x, globals.tileWidth * (this.start.x + 1)), Math.min(pos.y, globals.tileWidth * (this.start.y + 1)));
           return this.canvas.strokeRect(topleft.x, topleft.y, Math.abs(pos.x - globals.tileWidth * this.start.x), Math.abs(pos.y - globals.tileWidth * this.start.y));
         } else {
           return this.canvas.strokeRect(globals.tileWidth * Math.floor(mouse.x / globals.tileWidth), globals.tileWidth * Math.floor(mouse.y / globals.tileWidth), globals.tileWidth, globals.tileWidth);

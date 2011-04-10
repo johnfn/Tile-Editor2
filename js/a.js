@@ -1,5 +1,5 @@
 (function() {
-  var ObjList, batchLoad, canv, click, draw, grid, init, initMouseHandlers, loadSpriteSheets, mainloop, mousemove, nothing, switchPress, tilebox, toolbox, unclick;
+  var ObjList, batchLoad, canv, click, draw, fileHandle, getTileInfo, grid, init, initMouseHandlers, loadSpriteSheets, mainloop, mousemove, nothing, switchPress, textChangeListener, tilebox, toolbox, unclick;
   canv = 0;
   tilebox = 0;
   toolbox = 0;
@@ -36,7 +36,8 @@
     grid = new Grid(0, 0, canv, tilebox, toolbox);
     initMouseHandlers();
     setInterval(mainloop, 5);
-    return document.getElementById("switch").addEventListener("click", switchPress);
+    document.getElementById("switch").addEventListener("click", switchPress);
+    return document.getElementById("getfile").addEventListener("change", fileHandle);
   };
   initMouseHandlers = function() {
     document.body.onmousedown = function() {
@@ -94,6 +95,12 @@
     }
     return _results;
   };
+  textChangeListener = function() {
+    return console.log("changed");
+  };
+  window.textChangeListener = textChangeListener;
+  fileHandle = function() {};
+  window.fileHandle = fileHandle;
   switchPress = function() {
     return grid.switchMode();
   };
@@ -126,4 +133,8 @@
     })());
   };
   loadSpriteSheets();
+  getTileInfo = function() {
+    return grid.tiles;
+  };
+  window.getTileInfo = getTileInfo;
 }).call(this);

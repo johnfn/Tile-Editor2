@@ -21,7 +21,7 @@
             buff.height = globals.tileWidth;
             buff.getContext('2d').drawImage(img, i * globals.tileWidth, j * globals.tileWidth, globals.tileWidth, globals.tileWidth, 0, 0, globals.tileWidth, globals.tileWidth);
             thisObj.tiles.push(buff);
-            this.numItems++;
+            thisObj.numItems++;
           }
         }
         return callback();

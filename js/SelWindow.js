@@ -8,7 +8,7 @@
       this.x = x;
       this.y = y;
       this.border = globals.windowBorder;
-      this.items = items;
+      this.items = 50;
       this.width = itemsWide * (globals.tileWidth + this.border);
       this.height = Math.ceil(items / itemsWide) * (globals.tileWidth + this.border);
       this.selection = 0;
@@ -38,6 +38,7 @@
     SelWindow.prototype.unclick = function() {};
     SelWindow.prototype.draw = function() {
       var i, _ref, _results;
+      this.items = this.spritesheet.numItems;
       this.canvas.strokeRect(this.x, this.y, this.width + this.border, this.height);
       _results = [];
       for (i = 0, _ref = this.items; (0 <= _ref ? i < _ref : i > _ref); (0 <= _ref ? i += 1 : i -= 1)) {

@@ -7,7 +7,7 @@ class SelWindow
 		@x = x
 		@y = y
 		@border = globals.windowBorder
-		@items = items
+		@items = 50
 		@width = itemsWide * (globals.tileWidth + @border)
 		@height = Math.ceil(items / itemsWide) * (globals.tileWidth + @border)
 		@selection = 0
@@ -35,6 +35,7 @@ class SelWindow
 	unclick: () ->
 
 	draw: () ->
+		@items = @spritesheet.numItems
 		#@canvas.strokeWidth = 0
 		@canvas.strokeRect @x, @y, @width + @border, @height
 

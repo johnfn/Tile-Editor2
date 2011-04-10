@@ -38,9 +38,9 @@ init = () ->
 	setInterval mainloop, 5
 
 	document.getElementById("switch").addEventListener "click", switchPress
+	document.getElementById("getfile").addEventListener "change", fileHandle
 
 initMouseHandlers = () ->
-
 	document.body.onmousedown = () ->
 		globals.mouseDown++
 
@@ -82,8 +82,22 @@ unclick = () ->
 		if util.rectIntersectPt clickobj, mouse
 			clickobj.unclick()
 
+textChangeListener = () ->
+	console.log "changed"
+
+window.textChangeListener = textChangeListener
+
+
+fileHandle = () ->
+	#fileu = document.getElementById("getfile")
+	#file = fileu.files[0]
+	#globals.toolsSheet.loadImage(file.fileName,nothing)
+
+window.fileHandle = fileHandle
+
 switchPress = () ->
 	grid.switchMode()
+
 
 nothing = () ->
 
@@ -110,6 +124,9 @@ loadSpriteSheets = () ->
 	globals.toolsSheet = new SpriteSheet
 	batchLoad(globals.toolsSheet, (x[0] for x in globals.tools))
 
-
 loadSpriteSheets()
 
+getTileInfo = () ->
+	grid.tiles
+
+window.getTileInfo = getTileInfo

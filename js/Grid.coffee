@@ -5,8 +5,7 @@ class Grid
 		@y = y
 		@itemwidth = 15
 		@itemheight = 15
-		@width = @itemwidth * globals.tileWidth
-		@height = @itemheight * globals.tileWidth
+		@setwh()
 		@overworld = false
 		@tilebox = tilebox
 		@toolbox = toolbox
@@ -16,6 +15,10 @@ class Grid
 		globals.lists.add this, types.clickable
 		globals.lists.add this, types.mouseable
 
+		@inittiles()
+
+
+	inittiles : () ->
 		@tiles = []
 
 		for i in [0...@itemwidth]
@@ -28,6 +31,15 @@ class Grid
 				obj.height =      globals.tileWidth
 				obj.type   = 0
 				@tiles[i].push obj
+
+	resize : (size) ->
+		@itemwidth = size
+		@itemheight = size
+		@inittiles()
+
+	setwh : () ->
+		@width = @itemwidth * globals.tileWidth
+		@height = @itemheight * globals.tileWidth
 
 	getGridXY: () ->
 		new Point(Math.floor(mouse.x / globals.tileWidth), Math.floor(mouse.y / globals.tileWidth))
@@ -61,11 +73,12 @@ class Grid
 				pos = this.getGridXY()
 				pos.x *= globals.tileWidth
 				pos.y *= globals.tileWidth
-				topleft = new Point(Math.min(pos.x, globals.tileWidth * @start.x), Math.min(pos.y, globals.tileWidth * @start.y))
+				topleft = new Point(Math.min(pos.x, globals.tileWidth * (@start.x + 1)), 
+														Math.min(pos.y, globals.tileWidth * (@start.y + 1)))
 				@canvas.strokeRect topleft.x,
-								   topleft.y,
-								   Math.abs(pos.x - globals.tileWidth * @start.x),
-								   Math.abs(pos.y - globals.tileWidth * @start.y)
+												   topleft.y,
+												   Math.abs(pos.x - globals.tileWidth * @start.x),
+												   Math.abs(pos.y - globals.tileWidth * @start.y)
 			else
 				@canvas.strokeRect globals.tileWidth * Math.floor(mouse.x / globals.tileWidth),
 								   globals.tileWidth * Math.floor(mouse.y / globals.tileWidth),

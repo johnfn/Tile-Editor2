@@ -25,7 +25,7 @@ class SpriteSheet
 													globals.tileWidth,
 													globals.tileWidth
 					thisObj.tiles.push(buff)
-					@numItems++
+					thisObj.numItems++
 
 			callback()
 			

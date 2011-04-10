@@ -1,0 +1,38 @@
+!!! 5
+html(lang="en")
+  head
+    title= "hi"
+    link(rel="stylesheet", type="text/css", href="css/style.css")
+    script(type='text/javascript', src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js")
+    script(type='text/javascript', src="js/Point.js")
+    script(type='text/javascript', src="js/Globals.js")
+    script(type='text/javascript', src="js/SelWindow.js")
+    script(type='text/javascript', src="js/SpriteSheet.js")
+    script(type='text/javascript', src="js/Tilebox.js")
+    script(type='text/javascript', src="js/Toolbox.js")
+    script(type='text/javascript', src="js/Grid.js")
+    script(type='text/javascript', src="js/a.js")
+    script(type='text/javascript')
+      function save()
+        {
+          $.post( "/post/"
+                , { "data" : getTileInfo()
+                  }
+                , function()
+                  {
+                    alert("done!"); 
+                  }
+                , "json");
+        }
+
+  body
+    canvas(id="main", type="button", width=600, height=600)
+    button(id="switch", type="button")
+    input(type="file", id="getfile", size="20")
+    Size: input(type="text", oninput="textChangeListener()", id="size", text="10")
+    a(href='javascript:save()') Save to disk
+
+    p
+      :markdown
+        Using [silk icons](http://www.famfamfam.com/lab/icons/silk).
+        Written in [coffeescript](http://www.coffeescript.org)
